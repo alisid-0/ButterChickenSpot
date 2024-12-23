@@ -3,4 +3,6 @@ export type MenuItem = {
   description: string;
   price: number;
   image: string;
+  spiceLevel?: number;
+  categories?: string[];
 };
