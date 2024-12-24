@@ -40,7 +40,6 @@ export default function Login() {
                 <input
                   type="email"
                   className="w-full px-4 py-3 rounded-xl border border-[#434725]/20 focus:outline-none focus:border-[#F26722]"
-                  placeholder="Enter your email"
                 />
               </div>
 
@@ -49,7 +48,6 @@ export default function Login() {
                 <input
                   type="password"
                   className="w-full px-4 py-3 rounded-xl border border-[#434725]/20 focus:outline-none focus:border-[#F26722]"
-                  placeholder="Enter your password"
                 />
               </div>
 

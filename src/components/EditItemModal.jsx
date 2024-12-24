@@ -84,34 +84,38 @@ export default function EditItemModal({ item, onClose, onSave }) {
 
           <div>
             <label className="block text-[#434725] font-bold mb-2">Categories</label>
-            <div className="flex gap-4">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={formData.categories.includes('spicy')}
-                  onChange={(e) => {
-                    const newCategories = e.target.checked 
-                      ? [...formData.categories, 'spicy']
-                      : formData.categories.filter(c => c !== 'spicy');
-                    setFormData({ ...formData, categories: newCategories });
-                  }}
-                />
-                Spicy
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={formData.categories.includes('vegetarian')}
-                  onChange={(e) => {
-                    const newCategories = e.target.checked 
-                      ? [...formData.categories, 'vegetarian']
-                      : formData.categories.filter(c => c !== 'vegetarian');
-                    setFormData({ ...formData, categories: newCategories });
-                  }}
-                />
-                Vegetarian
-              </label>
+            <div className="flex flex-wrap gap-4">
+              {['main', 'side', 'beverage', 'spicy', 'vegetarian', 'remix', 'special'].map(category => (
+                <label key={category} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={formData.categories.includes(category)}
+                    onChange={(e) => {
+                      const newCategories = e.target.checked 
+                        ? [...formData.categories, category]
+                        : formData.categories.filter(c => c !== category);
+                      setFormData({ ...formData, categories: newCategories });
+                    }}
+                  />
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </label>
+              ))}
             </div>
+          </div>
+
+          <div>
+            <label className="block text-[#434725] font-bold mb-2">Discount Price (Optional)</label>
+            <input
+              type="number"
+              step="0.01"
+              value={formData.discountPrice || ''}
+              onChange={(e) => setFormData({ 
+                ...formData, 
+                discountPrice: e.target.value ? parseFloat(e.target.value) : undefined 
+              })}
+              className="w-full px-4 py-3 rounded-xl border border-[#434725]/20 focus:outline-none focus:border-[#F26722]"
+              placeholder="Leave empty if no discount"
+            />
           </div>
 
           <div>

@@ -1,10 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { menuItems, remixMenu } from '../data/menu';
+import { useMenu } from '../hooks/useMenu';
 import { Flame, Leaf } from 'lucide-react';
-import { specialOfTheWeek } from '../data/specials';
 
 export default function Menu() {
+  const { menuItems, loading, error } = useMenu();
+  
+  const classicItems = menuItems.filter(item => 
+    !item.categories?.includes('remix') && 
+    !item.categories?.includes('special')
+  );
+  const remixItems = menuItems.filter(item => item.categories?.includes('remix'));
+  const specialItem = menuItems.find(item => item.categories?.includes('special'));
+
+  if (loading) {
+    return <div className="min-h-screen bg-[#FFF8CC] flex items-center justify-center">
+      <div className="text-xl text-[#434725]">Loading menu...</div>
+    </div>;
+  }
+
+  if (error) {
+    return <div className="min-h-screen bg-[#FFF8CC] flex items-center justify-center">
+      <div className="text-xl text-[#434725]">Error loading menu: {error}</div>
+    </div>;
+  }
+
   return (
     <div className="min-h-screen bg-[#FFF8CC]">
       {/* Hero Banner */}
@@ -38,33 +58,35 @@ export default function Menu() {
 
       {/* Special of the Week */}
       <div className="container mx-auto px-4 md:px-8 py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="relative max-w-4xl mx-auto mb-24"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#EF4423] to-[#F26722] rounded-3xl transform rotate-2" />
-          <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="relative aspect-video md:aspect-auto">
-                <img
-                  src={specialOfTheWeek.image}
-                  alt={specialOfTheWeek.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-8 flex flex-col justify-center">
-                <h3 className="text-4xl font-black text-[#434725] mb-4">{specialOfTheWeek.name}</h3>
-                <p className="text-lg text-[#434725]/80 mb-6">{specialOfTheWeek.description}</p>
-                <div className="text-2xl font-black text-[#F26722] mb-8">${specialOfTheWeek.price}</div>
-                <button className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors">
-                  Order Now
-                </button>
+        {specialItem && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative max-w-4xl mx-auto mb-24"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-[#EF4423] to-[#F26722] rounded-3xl transform rotate-2" />
+            <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="relative aspect-video md:aspect-auto">
+                  <img
+                    src={specialItem.image}
+                    alt={specialItem.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-8 flex flex-col justify-center">
+                  <h3 className="text-4xl font-black text-[#434725] mb-4">{specialItem.name}</h3>
+                  <p className="text-lg text-[#434725]/80 mb-6">{specialItem.description}</p>
+                  <div className="text-2xl font-black text-[#F26722] mb-8">${specialItem.price}</div>
+                  <button className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors">
+                    Order Now
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* Classic Menu */}
         <div className="text-center mb-16">
@@ -72,7 +94,7 @@ export default function Menu() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-24">
-          {menuItems.map((item, index) => (
+          {classicItems.map((item, index) => (
             <motion.div 
               key={item.name}
               initial={{ opacity: 0, y: 20 }}
@@ -109,7 +131,7 @@ export default function Menu() {
                     <span className="text-xl md:text-2xl font-black text-[#F26722]">${item.price}</span>
                   </div>
                   <p className="text-[#434725]/80 text-base md:text-lg mb-4">{item.description}</p>
-                  {item.spiceLevel && (
+                  {item.spiceLevel > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-[#434725]">Spice Level:</span>
                       <div className="flex gap-1">
@@ -139,7 +161,7 @@ export default function Menu() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {remixMenu.map((item, index) => (
+          {remixItems.map((item, index) => (
             <motion.div 
               key={item.name}
               initial={{ opacity: 0, y: 20 }}
@@ -176,7 +198,7 @@ export default function Menu() {
                     <span className="text-xl md:text-2xl font-black text-[#F26722]">${item.price}</span>
                   </div>
                   <p className="text-[#434725]/80 text-base md:text-lg mb-4">{item.description}</p>
-                  {item.spiceLevel && (
+                  {item.spiceLevel > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-[#434725]">Spice Level:</span>
                       <div className="flex gap-1">

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight, Utensils, Heart, Award, ThumbsUp, Facebook, Instagram, Twitter, Flame, Droplets, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedText from '../components/AnimatedText';
-import { specialOfTheWeek, remixMenu } from '../data/specials';
+import { useMenu } from '../hooks/useMenu';
 
 // Lazy load Spline
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -73,6 +73,9 @@ document.head.appendChild(style);
 export default function Home() {
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [isSplineVisible, setIsSplineVisible] = useState(false);
+  const { menuItems, loading, error } = useMenu();
+  
+  const specialItem = menuItems.find(item => item.categories?.includes('special'));
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -265,7 +268,6 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Special content */}
             <div className="relative z-10">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -276,39 +278,41 @@ export default function Home() {
                 <h2 className="text-6xl font-black text-[#FFF8CC] mb-6">Special of the Week</h2>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="relative max-w-4xl mx-auto"
-              >
-                <div className="absolute inset-0 bg-[#FFF8CC] rounded-3xl transform rotate-3" />
-                <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl">
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="relative aspect-square md:aspect-auto">
-                      <img
-                        src={specialOfTheWeek.image}
-                        alt={specialOfTheWeek.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-8 flex flex-col justify-center">
-                      <h3 className="text-4xl font-black text-[#434725] mb-4">{specialOfTheWeek.name}</h3>
-                      <p className="text-lg text-[#434725]/80 mb-6">{specialOfTheWeek.description}</p>
-                      <div className="text-3xl font-black text-[#F26722] mb-8">
-                        ${specialOfTheWeek.price}
+              {specialItem && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="relative max-w-4xl mx-auto"
+                >
+                  <div className="absolute inset-0 bg-[#FFF8CC] rounded-3xl transform rotate-3" />
+                  <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl">
+                    <div className="grid md:grid-cols-2 gap-8">
+                      <div className="relative aspect-square md:aspect-auto">
+                        <img
+                          src={specialItem.image}
+                          alt={specialItem.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
-                      <Link
-                        to="/menu"
-                        className="group inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-all duration-300 hover:scale-105 shadow-lg"
-                      >
-                        Order Now
-                        <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
+                      <div className="p-8 flex flex-col justify-center">
+                        <h3 className="text-4xl font-black text-[#434725] mb-4">{specialItem.name}</h3>
+                        <p className="text-lg text-[#434725]/80 mb-6">{specialItem.description}</p>
+                        <div className="text-3xl font-black text-[#F26722] mb-8">
+                          ${specialItem.price}
+                        </div>
+                        <Link
+                          to="/menu"
+                          className="group inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-all duration-300 hover:scale-105 shadow-lg"
+                        >
+                          Order Now
+                          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              )}
             </div>
           </div>
 

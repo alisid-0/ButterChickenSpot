@@ -23,27 +23,35 @@ export default function Navbar() {
     { path: '/contact', icon: PhoneCall, label: 'Contact' },
   ];
   
-  const AuthButton = () => (
-    <Link 
-      to={isLoggedIn ? "/dashboard" : "/login"}
-      className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
-    >
-      <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="relative flex items-center gap-2">
-        {isLoggedIn ? (
-          <>
+  const AuthButton = () => {
+    if (isLoggedIn) {
+      return (
+        <Link 
+          to="/dashboard"
+          className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
+        >
+          <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="relative flex items-center gap-2">
             <LayoutDashboard size={20} />
             <span>Dashboard</span>
-          </>
-        ) : (
-          <>
-            <LogIn size={20} />
-            <span>Login</span>
-          </>
-        )}
-      </div>
-    </Link>
-  );
+          </div>
+        </Link>
+      );
+    }
+    
+    return (
+      <Link 
+        to="/login"
+        className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
+      >
+        <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="relative flex items-center gap-2">
+          <LogIn size={20} />
+          <span>Login</span>
+        </div>
+      </Link>
+    );
+  };
 
   return (
     <nav className="bg-gradient-to-r from-[#F26722] to-[#FF850A] py-4 px-4 md:py-6 md:px-8 fixed w-full top-0 z-50">

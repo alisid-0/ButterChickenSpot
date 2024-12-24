@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Users, Clock, Heart, ChefHat, Sparkles, UtensilsCrossed } from 'lucide-react';
+import { Users, Clock, Award, Heart, ChefHat, UtensilsCrossed, Sparkles } from 'lucide-react';
+import { TextSkeleton, ImageSkeleton, CardSkeleton } from '../components/Skeleton';
 
-export default function About() {
+const AboutContent = () => {
   const stats = [
     { icon: Users, value: '10K+', label: 'Happy Customers' },
     { icon: Clock, value: '3+', label: 'Years of Excellence' },
@@ -198,5 +199,70 @@ export default function About() {
         </motion.div>
       </div>
     </div>
+  );
+};
+
+const AboutSkeleton = () => (
+  <div className="min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 bg-[#FFF8CC]">
+    <div className="container mx-auto px-4 md:px-8">
+      {/* Hero Section Skeleton */}
+      <div className="text-center mb-16">
+        <TextSkeleton height="4rem" width="60%" className="mx-auto mb-6" />
+        <TextSkeleton width="40%" className="mx-auto" />
+      </div>
+
+      {/* Timeline Section Skeleton */}
+      <div className="max-w-5xl mx-auto mb-32">
+        <div className="space-y-8">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <TextSkeleton width="80px" />
+              <CardSkeleton />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Story Section Skeleton */}
+      <div className="max-w-5xl mx-auto mb-32">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <TextSkeleton height="2.5rem" width="80%" />
+            <TextSkeleton width="100%" />
+            <TextSkeleton width="90%" />
+          </div>
+          <ImageSkeleton className="h-[400px]" />
+        </div>
+      </div>
+
+      {/* Stats Grid Skeleton */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-32">
+        {[...Array(4)].map((_, i) => (
+          <CardSkeleton key={i} />
+        ))}
+      </div>
+
+      {/* Team Section Skeleton */}
+      <div className="text-center">
+        <TextSkeleton height="3rem" width="50%" className="mx-auto mb-16" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="space-y-4">
+              <ImageSkeleton className="aspect-square" />
+              <TextSkeleton width="60%" className="mx-auto" />
+              <TextSkeleton width="40%" className="mx-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export default function About() {
+  return (
+    <Suspense fallback={<AboutSkeleton />}>
+      <AboutContent />
+    </Suspense>
   );
 }
