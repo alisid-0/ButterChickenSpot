@@ -121,16 +121,6 @@ export default function About() {
                   alt="Our signature butter chicken"
                   className="relative rounded-2xl shadow-lg w-full"
                 />
-                <motion.div
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute -top-6 -right-6 bg-[#F6BF23] w-24 h-24 rounded-full flex items-center justify-center p-4 shadow-lg"
-                >
-                  <div className="text-center text-[#434725] font-black text-sm">
-                    MADE WITH LOVE
-                  </div>
-                </motion.div>
               </div>
             </div>
           </div>

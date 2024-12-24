@@ -1,6 +1,4 @@
-import { MenuItem } from '../types';
-
-export const specialOfTheWeek: MenuItem = {
+export const specialOfTheWeek = {
   name: "Truffle Butter Chicken",
   description: "Our signature butter chicken elevated with black truffle, served with saffron rice and gold-dusted naan",
   price: 24.99,
@@ -13,9 +11,9 @@ export const remixMenu = [
   {
     name: "Butter Chicken Tacos",
     price: 18.99,
-    description: "Butter chicken wrapped in soft corn tortillas, topped with mint chutney slaw and crispy curry leaves",
+    description: "Soft corn tortillas filled with butter chicken, mint chutney slaw, and pickled onions",
     image: "/images/butter-chicken-tacos.jpg",
-    spiceLevel: 2,
+    spiceLevel: 1,
     categories: ['remix']
   },
   {

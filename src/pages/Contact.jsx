@@ -21,13 +21,14 @@ export default function Contact() {
         {/* Contact Grid */}
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-32">
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-[#F26722] to-[#FF850A] rounded-3xl transform rotate-1" />
-            <div className="relative bg-white rounded-3xl p-8 shadow-xl">
+          <div className="relative">
+            <div className="absolute top-0 left-1 right-1 bottom-[290px] bg-gradient-to-r from-[#F26722] to-[#FF850A] rounded-3xl transform rotate-1" style={{ zIndex: 0 }} />
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="relative bg-white rounded-3xl p-8 shadow-xl"
+              style={{ zIndex: 1 }}
+            >
               <h2 className="text-3xl font-black text-[#434725] mb-6">Send us a Message</h2>
               <form className="space-y-6">
                 <div>
@@ -65,8 +66,8 @@ export default function Contact() {
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </form>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Contact Info */}
           <div className="space-y-8">

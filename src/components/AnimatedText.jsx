@@ -1,13 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-type Props = {
-  text: string;
-  className?: string;
-  delay?: number;
-};
-
-export default function AnimatedText({ text, className = "", delay = 0 }: Props) {
+export default function AnimatedText({ text, className = "", delay = 0 }) {
   return (
     <motion.span
       initial={{ opacity: 0, y: 20 }}

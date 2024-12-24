@@ -53,11 +53,6 @@ export default function Menu() {
                   alt={specialOfTheWeek.name}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute top-4 right-4">
-                  <div className="bg-[#F6BF23] text-[#434725] w-24 h-24 rounded-full flex items-center justify-center font-black text-sm text-center p-4">
-                    LIMITED<br />EDITION
-                  </div>
-                </div>
               </div>
               <div className="p-8 flex flex-col justify-center">
                 <h3 className="text-4xl font-black text-[#434725] mb-4">{specialOfTheWeek.name}</h3>

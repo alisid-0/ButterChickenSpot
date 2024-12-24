@@ -4,7 +4,7 @@ import { Sphere, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 function FloatingElements() {
-  const group = useRef<THREE.Group>(null);
+  const group = useRef(null);
 
   useFrame((state) => {
     if (group.current) {

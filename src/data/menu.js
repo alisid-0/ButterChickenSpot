@@ -1,6 +1,4 @@
-import { MenuItem } from '../types';
-
-export const menuItems: MenuItem[] = [
+export const menuItems = [
   {
     name: "Butter Chicken",
     description: "Our signature dish - tender chicken pieces in a rich, creamy tomato-based curry sauce",
@@ -29,7 +27,7 @@ export const menuItems: MenuItem[] = [
   }
 ];
 
-export const remixMenu: MenuItem[] = [
+export const remixMenu = [
   {
     name: "Butter Chicken Pizza",
     description: "Our famous butter chicken sauce on a crispy naan base with mozzarella",
