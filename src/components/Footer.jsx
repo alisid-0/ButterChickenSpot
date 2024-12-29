@@ -58,7 +58,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin size={20} />
-                <span>123 Foodie Street<br />Flavor Town, ST 12345</span>
+                <span>14817 Clayton Rd, Chesterfield, MO 63017</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={20} />
@@ -66,7 +66,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={20} />
-                <span>hello@butterchickenspot.com</span>
+                <span>thebutterchickenspot@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -76,9 +76,7 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-6">Hours</h3>
             <ul className="space-y-2">
               {[
-                { day: 'Monday - Friday', hours: '11:00 AM - 10:00 PM' },
-                { day: 'Saturday', hours: '11:00 AM - 11:00 PM' },
-                { day: 'Sunday', hours: '11:00 AM - 9:00 PM' },
+                { day: 'Monday - Sunday', hours: '11:00 AM - 11:00 PM' },
               ].map(schedule => (
                 <li key={schedule.day} className="flex flex-col">
                   <span className="font-bold">{schedule.day}</span>

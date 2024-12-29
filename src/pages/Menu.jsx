@@ -29,9 +29,9 @@ export default function Menu() {
     <div className="min-h-screen bg-[#FFF8CC]">
       {/* Hero Banner */}
       <div className="relative h-[30vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#EF4423] to-[#F26722]">
+        <div className="absolute inset-0 bg-[#F6BF23]">
           <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-[#EF4423] blur-3xl" />
+            <div className="absolute top-20 left-20 w-64 h-64 rounded-full bg-[#F26722] blur-3xl" />
             <div className="absolute bottom-20 right-20 w-64 h-64 rounded-full bg-[#FF850A] blur-3xl" />
           </div>
         </div>

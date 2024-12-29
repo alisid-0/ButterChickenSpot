@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Home, Menu as MenuIcon, Info, PhoneCall, LogIn, LogOut, LayoutDashboard, X, ChefHat } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import logo from '../assets/logo.png';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -60,9 +61,11 @@ export default function Navbar() {
           to="/" 
           className="flex items-center gap-3 text-[#FFF8CC] transform hover:scale-105 transition-transform duration-200"
         >
-          <div className="bg-[#FFF8CC] p-2 rounded-full">
-            <ChefHat className="w-6 h-6 text-[#F26722]" />
-          </div>
+          <img 
+            src={logo} 
+            alt="The Butter Chicken Spot Logo" 
+            className="w-12 h-12 md:w-14 md:h-14"
+          />
           <span className="text-xl md:text-3xl font-black">
             The Butter Chicken Spot
           </span>

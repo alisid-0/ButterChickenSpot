@@ -1,8 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, MessageCircle, Send, Facebook, Instagram, Twitter } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Facebook, Instagram, Twitter } from 'lucide-react';
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      await emailjs.send(
+        'YOUR_SERVICE_ID', // from EmailJS
+        'YOUR_TEMPLATE_ID', // from EmailJS
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'thebutterchickenspot@gmail.com'
+        },
+        'YOUR_PUBLIC_KEY' // from EmailJS
+      );
+      
+      setStatus({ 
+        type: 'success', 
+        message: 'Message sent successfully! We\'ll get back to you soon.' 
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please try again.' 
+      });
+    }
+    
+    setLoading(false);
+  };
+
   return (
     <div className="min-h-screen pt-24 md:pt-32 pb-16 md:pb-24 bg-[#FFF8CC]">
       <div className="container mx-auto px-4 md:px-8">
@@ -30,14 +75,17 @@ export default function Contact() {
               style={{ zIndex: 1 }}
             >
               <h2 className="text-3xl font-black text-[#434725] mb-6">Send us a Message</h2>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block text-[#434725] font-bold mb-2" htmlFor="name">Name</label>
                   <input
                     type="text"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 border-[#434725]/10 focus:border-[#F26722] focus:outline-none transition-colors"
                     placeholder="Your name"
+                    required
                   />
                 </div>
                 <div>
@@ -45,24 +93,36 @@ export default function Contact() {
                   <input
                     type="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 border-[#434725]/10 focus:border-[#F26722] focus:outline-none transition-colors"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-[#434725] font-bold mb-2" htmlFor="message">Message</label>
                   <textarea
                     id="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     rows={4}
                     className="w-full px-4 py-3 rounded-xl border-2 border-[#434725]/10 focus:border-[#F26722] focus:outline-none transition-colors resize-none"
                     placeholder="Your message..."
+                    required
                   />
                 </div>
+                {status.message && (
+                  <div className={`text-sm ${status.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                    {status.message}
+                  </div>
+                )}
                 <button
                   type="submit"
-                  className="group w-full bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-xl font-bold hover:bg-[#FF850A] transition-all duration-300 flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className="group w-full bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-xl font-bold hover:bg-[#FF850A] transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                   <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </form>
@@ -81,9 +141,9 @@ export default function Contact() {
               <div className="space-y-6">
                 {[
                   { icon: Phone, label: 'Phone', value: '(123) 456-7890', href: 'tel:1234567890' },
-                  { icon: Mail, label: 'Email', value: 'hello@butterchickenspot.com', href: 'mailto:hello@butterchickenspot.com' },
-                  { icon: MapPin, label: 'Location', value: '123 Butter Lane, Foodie City', href: 'https://maps.google.com' },
-                  { icon: Clock, label: 'Hours', value: 'Mon-Sun: 11am - 10pm', href: null },
+                  { icon: Mail, label: 'Email', value: 'thebutterchickenspot@gmail.com', href: 'mailto:thebutterchickenspot@gmail.com' },
+                  { icon: MapPin, label: 'Location', value: '14817 Clayton Rd, Chesterfield, MO 63017', href: 'https://maps.google.com' },
+                  { icon: Clock, label: 'Hours', value: 'Mon-Sun: 11am - 11pm', href: null },
                 ].map((item) => (
                   <a
                     key={item.label}
@@ -125,28 +185,6 @@ export default function Contact() {
                     <span className="text-sm font-bold text-[#434725]">{social.label}</span>
                   </a>
                 ))}
-              </div>
-            </motion.div>
-
-            {/* Chat Bubble */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-[#F26722] rounded-3xl p-8 shadow-xl text-[#FFF8CC] relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF850A] rounded-full blur-3xl opacity-50 transform translate-x-1/2 -translate-y-1/2" />
-              <div className="relative">
-                <div className="flex items-center gap-4 mb-4">
-                  <MessageCircle className="w-8 h-8" />
-                  <h2 className="text-2xl font-black">Live Chat</h2>
-                </div>
-                <p className="mb-6">
-                  Need immediate assistance? Chat with our team now!
-                </p>
-                <button className="bg-[#FFF8CC] text-[#F26722] px-6 py-3 rounded-xl font-bold hover:bg-white transition-colors">
-                  Start Chat
-                </button>
               </div>
             </motion.div>
           </div>

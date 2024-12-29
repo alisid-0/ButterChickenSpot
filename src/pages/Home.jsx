@@ -73,9 +73,30 @@ document.head.appendChild(style);
 export default function Home() {
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [isSplineVisible, setIsSplineVisible] = useState(false);
+  const [splineUrl, setSplineUrl] = useState("");
   const { menuItems, loading, error } = useMenu();
   
   const specialItem = menuItems.find(item => item.categories?.includes('special'));
+
+  useEffect(() => {
+    const handleResize = () => {
+      console.log("Window width:", window.innerWidth);
+      const newUrl = window.innerWidth < 768
+        ? "https://prod.spline.design/08IErw4iK5otkwzl/scene.splinecode"
+        : "https://prod.spline.design/veWZgKRhxw0qyrhb/scene.splinecode";
+      console.log("Setting Spline URL to:", newUrl);
+      setSplineUrl(newUrl);
+    };
+
+    // Initial call
+    handleResize();
+
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -86,30 +107,37 @@ export default function Home() {
   }, []);
 
   const handleSplineLoad = () => {
+    console.log("Spline loaded");
     setIsSplineLoaded(true);
   };
+
+  // Add this console log to track renders
+  console.log("Current splineUrl:", splineUrl);
 
   return (
     <div className="min-h-screen bg-[#FFF8CC]">
       {/* Hero Section */}
-      <div className="h-screen relative overflow-hidden">
+      <div className="min-h-[1000px] h-screen relative overflow-hidden">
         {/* Spline Background with Skeleton */}
         <AnimatePresence>
-          <div className="absolute inset-0 -bottom-[60px]">
+          <div className="absolute inset-0 min-h-[1000px]">
             <Suspense fallback={<SkeletonLoader />}>
-              {isSplineVisible && (
+              {isSplineVisible && splineUrl && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
+                  className="w-full h-full relative min-h-[1000px]"
                 >
-                  <Spline 
-                    scene="https://prod.spline.design/veWZgKRhxw0qyrhb/scene.splinecode"
-                    className="w-full h-full"
-                    onLoad={handleSplineLoad}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onTouchStart={(e) => e.preventDefault()}
-                  />
+                  <div className="w-full h-full min-h-[1000px]">
+                    <Spline 
+                      scene={splineUrl}
+                      className="w-full h-full min-h-[1000px]"
+                      onLoad={handleSplineLoad}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onTouchStart={(e) => e.preventDefault()}
+                    />
+                  </div>
                 </motion.div>
               )}
             </Suspense>
@@ -123,33 +151,34 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="relative h-full flex items-center z-10"
+              className="relative h-full flex items-start lg:items-center z-10 pt-24 lg:pt-0"
             >
-              <div className="container mx-auto px-8">
+              <div className="container mx-auto px-4 md:px-8">
                 <div className="max-w-4xl relative">
                   <div className="relative">
                     <AnimatedText
                       text="Savor"
-                      className="text-8xl font-black text-[#434725] block mb-2"
+                      className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#434725] block mb-2"
                       delay={0.2}
                     />
                     <AnimatedText
                       text="Authentic"
-                      className="text-8xl font-black text-[#434725] block mb-2"
+                      className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#434725] block mb-2"
                       delay={0.4}
                     />
-                    <div className="flex items-center gap-4 mb-2">
+                    <div className="inline-flex items-center gap-2 sm:gap-4 mb-2">
                       <AnimatedText
                         text="Butter Chicken"
-                        className="text-8xl font-black text-[#F26722]"
+                        className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#F26722]"
                         delay={0.6}
                       />
                       <motion.div
                         initial={{ opacity: 0, rotate: -180 }}
                         animate={{ opacity: 1, rotate: 0 }}
                         transition={{ duration: 0.5, delay: 0.8 }}
+                        className="flex-shrink-0"
                       >
-                        <Utensils className="w-16 h-16 text-[#F26722]" />
+                        <Utensils className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-[#F26722]" />
                       </motion.div>
                     </div>
                   </div>
@@ -158,10 +187,9 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 1 }}
-                    className="text-2xl text-[#434725] mt-8 mb-12 max-w-2xl"
+                    className="text-xl sm:text-2xl text-[#434725] mt-8 mb-12 max-w-2xl"
                   >
-                    Where tradition meets perfection in every bite. Our signature butter chicken 
-                    is crafted with love, using a secret blend of spices passed down through generations.
+                    Where tradition meets perfection in every bite.
                   </motion.p>
 
                   <motion.div
@@ -253,7 +281,7 @@ export default function Home() {
           <div className="relative -mx-8 px-8 mb-48">
             {/* Enhanced paint texture background */}
             <div className="absolute inset-0 z-0">
-              <div className="absolute inset-x-[-100vw] inset-y-[-50px] bg-gradient-to-r from-[#EF4423] to-[#F26722]">
+              <div className="absolute inset-x-[-100vw] inset-y-[-50px] bg-[#F6BF23]">
                 {/* Sharper paint texture overlay */}
                 <div 
                   className="absolute inset-0 opacity-50 mix-blend-overlay"
@@ -264,7 +292,7 @@ export default function Home() {
                 />
                 {/* Paint splash effects using brand colors */}
                 <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[#F26722] blur-[50px] opacity-70" />
-                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-[#EF4423] blur-[50px] opacity-70" />
+                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-[#FF850A] blur-[50px] opacity-70" />
               </div>
             </div>
 
@@ -296,17 +324,19 @@ export default function Home() {
                         />
                       </div>
                       <div className="p-8 flex flex-col justify-center">
-                        <h3 className="text-4xl font-black text-[#434725] mb-4">{specialItem.name}</h3>
-                        <p className="text-lg text-[#434725]/80 mb-6">{specialItem.description}</p>
-                        <div className="text-3xl font-black text-[#F26722] mb-8">
+                        <h3 className="text-3xl sm:text-4xl font-black text-[#434725] mb-2 sm:mb-4">{specialItem.name}</h3>
+                        <p className="text-base sm:text-lg text-[#434725]/80 mb-4 sm:mb-6 line-clamp-4 sm:line-clamp-none">
+                          {specialItem.description}
+                        </p>
+                        <div className="text-2xl sm:text-3xl font-black text-[#F26722] mb-6 sm:mb-8">
                           ${specialItem.price}
                         </div>
                         <Link
                           to="/menu"
-                          className="group inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-all duration-300 hover:scale-105 shadow-lg"
+                          className="group inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-6 sm:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base font-bold hover:bg-[#FF850A] transition-all duration-300 hover:scale-105 shadow-lg"
                         >
                           Order Now
-                          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                       </div>
                     </div>
@@ -382,28 +412,28 @@ export default function Home() {
       </section>
 
       {/* Social Media CTA */}
-      <section className="py-32 bg-[#F26722] relative overflow-hidden">
+      <section className="py-32 bg-[#F6BF23] relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-[#FF850A] blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#EF4423] blur-3xl" />
+          <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-[#F26722] blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-[#FF850A] blur-3xl" />
         </div>
         
-        <div className="container mx-auto px-8 relative">
+        <div className="container mx-auto px-4 md:px-8 relative">
           <div className="max-w-4xl mx-auto text-center">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-6xl font-black text-[#FFF8CC] mb-8"
+              className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#FFF8CC] mb-6 sm:mb-8"
             >
-              Join Our Butter Chicken<br />Community
+              Join Our Butter Chicken<br className="hidden sm:block" /> Community
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-xl text-[#FFF8CC]/90 mb-12 max-w-2xl mx-auto"
+              className="text-lg sm:text-xl text-[#FFF8CC]/90 mb-8 sm:mb-12 max-w-2xl mx-auto px-4"
             >
               Follow us on social media for exclusive offers, behind-the-scenes content, and to share your butter chicken moments with us!
             </motion.p>
@@ -412,7 +442,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="flex justify-center gap-6"
+              className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
             >
               {[
                 { icon: Facebook, label: "Facebook", href: "https://facebook.com" },
@@ -424,9 +454,9 @@ export default function Home() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 bg-[#FFF8CC] text-[#F26722] px-8 py-4 rounded-full text-lg font-bold hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg"
+                  className="group flex items-center justify-center gap-3 bg-[#FFF8CC] text-[#F26722] px-6 sm:px-8 py-4 rounded-full text-base sm:text-lg font-bold hover:bg-white hover:scale-105 transition-all duration-300 shadow-lg"
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                   <span>{label}</span>
                 </a>
               ))}
