@@ -198,7 +198,7 @@ export default function Contact() {
           className="relative rounded-3xl overflow-hidden h-[400px] shadow-xl"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2887.2688!2d-79.3849!3d43.6529!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDM5JzEwLjQiTiA3OcKwMjMnMDUuNiJX!5e0!3m2!1sen!2sca!4v1620835678974!5m2!1sen!2sca"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6234.733898975676!2d-90.5437075054671!3d38.617438590431156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d8d48e8b3e6e2d%3A0x4e7e3b07ef7330fc!2s14817%20Clayton%20Rd%2C%20Chesterfield%2C%20MO%2063017!5e0!3m2!1sen!2sus!4v1735453791378!5m2!1sen!2sus"
             width="100%"
             height="100%"
             style={{ border: 0 }}

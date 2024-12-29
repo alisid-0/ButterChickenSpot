@@ -55,18 +55,18 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#F26722] to-[#FF850A] py-4 px-4 md:py-6 md:px-8 fixed w-full top-0 z-50">
+    <nav className="bg-gradient-to-r from-[#F26722] to-[#FF850A] py-4 px-4 md:py-6 md:px-8 sm:py-6  fixed w-full top-0 z-50">
       <div className="container mx-auto flex justify-between items-center">
         <Link 
           to="/" 
-          className="flex items-center gap-3 text-[#FFF8CC] transform hover:scale-105 transition-transform duration-200"
+          className="flex items-center gap-2 md:gap-3 text-[#FFF8CC] transform hover:scale-105 transition-transform duration-200"
         >
           <img 
             src={logo} 
             alt="The Butter Chicken Spot Logo" 
-            className="w-12 h-12 md:w-14 md:h-14"
+            className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
           />
-          <span className="text-xl md:text-3xl font-black">
+          <span className="text-xl sm:text-2xl md:text-xl lg:text-3xl font-black">
             The Butter Chicken Spot
           </span>
         </Link>
@@ -78,18 +78,18 @@ export default function Navbar() {
           {isMenuOpen ? <X size={24} /> : <MenuIcon size={24} />}
         </button>
 
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
           {navItems.map(({ path, icon: Icon, label }) => (
             <Link 
               key={path}
               to={path} 
               className="relative group"
             >
-              <div className={`flex items-center gap-3 text-[#FFF8CC] px-4 py-2 rounded-full transition-all duration-200 ${
+              <div className={`flex items-center gap-2 lg:gap-3 text-[#FFF8CC] px-3 lg:px-4 py-2 rounded-full transition-all duration-200 ${
                 location.pathname === path ? 'bg-white/20 font-bold' : 'hover:bg-white/10'
               }`}>
-                <Icon size={24} />
-                <span className="text-lg">{label}</span>
+                <Icon size={20} className="lg:w-6 lg:h-6" />
+                <span className="text-base lg:text-lg">{label}</span>
               </div>
               {location.pathname === path && (
                 <motion.div 
@@ -110,10 +110,10 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 right-0 bg-gradient-to-r from-[#F26722] to-[#FF850A] p-4 md:hidden shadow-lg"
+              className="fixed top-[72px] left-0 right-0 bg-gradient-to-r from-[#F26722] to-[#FF850A] p-4 md:hidden shadow-lg z-[100]"
             >
               {navItems.map(({ path, icon: Icon, label }) => (
-                <Link
+                <Link 
                   key={path}
                   to={path}
                   className={`flex items-center gap-3 text-[#FFF8CC] hover:bg-white/10 px-4 py-3 rounded-xl mb-2 ${

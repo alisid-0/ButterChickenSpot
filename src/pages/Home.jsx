@@ -70,6 +70,33 @@ const style = document.createElement('style');
 style.textContent = shimmerAnimation;
 document.head.appendChild(style);
 
+const SplineScene = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getSplineUrl = () => {
+    if (windowWidth < 1024) {
+      return 'https://prod.spline.design/08IErw4iK5otkwzl/scene.splinecode';
+    } else if (windowWidth < 1536) {
+      return 'https://prod.spline.design/g-5fCY3IS5g95raZ/scene.splinecode';
+    } else {
+      return 'https://prod.spline.design/veWZgKRhxw0qyrhb/scene.splinecode';
+    }
+  };
+
+  return (
+    <Spline scene={getSplineUrl()} />
+  );
+};
+
 export default function Home() {
   const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   const [isSplineVisible, setIsSplineVisible] = useState(false);
@@ -81,9 +108,16 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       console.log("Window width:", window.innerWidth);
-      const newUrl = window.innerWidth < 768
-        ? "https://prod.spline.design/08IErw4iK5otkwzl/scene.splinecode"
-        : "https://prod.spline.design/veWZgKRhxw0qyrhb/scene.splinecode";
+      let newUrl;
+      
+      if (window.innerWidth < 1024) {
+        newUrl = 'https://prod.spline.design/08IErw4iK5otkwzl/scene.splinecode';
+      } else if (window.innerWidth < 1536) {
+        newUrl = 'https://prod.spline.design/g-5fCY3IS5g95raZ/scene.splinecode';
+      } else {
+        newUrl = 'https://prod.spline.design/veWZgKRhxw0qyrhb/scene.splinecode';
+      }
+      
       console.log("Setting Spline URL to:", newUrl);
       setSplineUrl(newUrl);
     };
