@@ -76,7 +76,7 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-6">Hours</h3>
             <ul className="space-y-2">
               {[
-                { day: 'Monday - Sunday', hours: '11:00 AM - 11:00 PM' },
+                { day: 'Everyday', hours: '11:00 AM - 11:00 PM' },
               ].map(schedule => (
                 <li key={schedule.day} className="flex flex-col">
                   <span className="font-bold">{schedule.day}</span>
@@ -84,6 +84,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            <p className="text-xs text-[#FFF8CC]/70 mt-1">(Exclusions may apply)</p>
           </div>
         </div>
 

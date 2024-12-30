@@ -55,7 +55,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-[#F26722] to-[#FF850A] py-6 px-4 md:py-6 md:px-8 fixed w-full top-0 z-50">
+    <nav className="bg-gradient-to-r from-[#F26722] to-[#FF850A] py-5 px-4 md:py-6 md:px-8 fixed w-full top-0 z-50 border-b-0">
       <div className="container mx-auto flex justify-between items-center">
         <Link 
           to="/" 
@@ -64,9 +64,9 @@ export default function Navbar() {
           <img 
             src={logo} 
             alt="The Butter Chicken Spot Logo" 
-            className="w-12 h-12 md:w-12 md:h-12 lg:w-14 lg:h-14"
+            className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
           />
-          <span className="text-2xl sm:text-2xl md:text-xl lg:text-3xl font-black">
+          <span className="text-sm md:text-xl lg:text-3xl font-black">
             The Butter Chicken Spot
           </span>
         </Link>

@@ -81,7 +81,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#FFF8CC] relative z-0">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-[#434725]">Menu Dashboard</h1>
           <div className="flex flex-wrap gap-2 sm:gap-4">
