@@ -61,7 +61,7 @@ export default function Navbar() {
           to="/" 
           className="flex items-center gap-2 md:gap-3 text-[#FFF8CC] transform hover:scale-105 transition-transform duration-200"
         >
-          <span className="text-sm md:text-xl lg:text-3xl font-black">
+          <span className="text-2xl md:text-xl lg:text-3xl font-black">
             The Butter Chicken Spot
           </span>
         </Link>
