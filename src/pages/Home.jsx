@@ -185,26 +185,23 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="relative h-full flex items-start lg:items-center z-10 pt-24 lg:pt-0"
+              className="relative h-full flex items-start lg:items-center z-10 pt-16 lg:pt-0"
             >
-              <div className="container mx-auto px-4 md:px-8">
+              <div className="container mx-auto px-6 md:px-8">
                 <div className="max-w-4xl relative">
                   <div className="relative">
                     <AnimatedText
                       text="Savor"
-                      className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#434725] block mb-2"
-                      delay={0.2}
+                      className="text-6xl sm:text-7xl lg:text-8xl font-black text-[#434725] block mb-1 sm:mb-2"
                     />
                     <AnimatedText
                       text="Authentic"
-                      className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#434725] block mb-2"
-                      delay={0.4}
+                      className="text-6xl sm:text-7xl lg:text-8xl font-black text-[#434725] block mb-1 sm:mb-2"
                     />
-                    <div className="inline-flex items-center gap-2 sm:gap-4 mb-2">
+                    <div className="flex items-center gap-2 sm:gap-4 mb-1 sm:mb-2">
                       <AnimatedText
                         text="Butter Chicken"
-                        className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#F26722]"
-                        delay={0.6}
+                        className="text-6xl sm:text-7xl lg:text-8xl font-black text-[#F26722]"
                       />
                       <motion.div
                         initial={{ opacity: 0, rotate: -180 }}
@@ -212,7 +209,7 @@ export default function Home() {
                         transition={{ duration: 0.5, delay: 0.8 }}
                         className="flex-shrink-0"
                       >
-                        <Utensils className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-[#F26722]" />
+                        <Utensils className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 text-[#F26722]" />
                       </motion.div>
                     </div>
                   </div>
@@ -221,7 +218,7 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 1 }}
-                    className="text-xl sm:text-2xl text-[#434725] mt-8 mb-12 max-w-2xl"
+                    className="text-lg sm:text-xl lg:text-2xl text-[#434725] mt-6 sm:mt-8 mb-8 sm:mb-12 max-w-2xl"
                   >
                     Where tradition meets perfection in every bite.
                   </motion.p>
@@ -230,13 +227,14 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 1.2 }}
+                    className="flex sm:justify-start"
                   >
                     <Link
                       to="/menu"
-                      className="group inline-flex items-center gap-3 bg-[#F26722] text-[#FFF8CC] px-12 py-6 rounded-full text-xl font-bold hover:bg-[#FF850A] hover:scale-105 transition-all duration-300 shadow-lg"
+                      className="group inline-flex items-center gap-2 sm:gap-3 bg-[#F26722] text-[#FFF8CC] px-8 sm:px-12 py-4 sm:py-6 rounded-full text-lg sm:text-xl font-bold hover:bg-[#FF850A] hover:scale-105 transition-all duration-300 shadow-lg"
                     >
                       Explore Our Menu
-                      <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </motion.div>
                 </div>
@@ -316,17 +314,7 @@ export default function Home() {
             {/* Enhanced paint texture background */}
             <div className="absolute inset-0 z-0">
               <div className="absolute inset-x-[-100vw] inset-y-[-50px] bg-[#F6BF23]">
-                {/* Sharper paint texture overlay */}
-                <div 
-                  className="absolute inset-0 opacity-50 mix-blend-overlay"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                    backgroundSize: '200px 200px'
-                  }}
-                />
-                {/* Paint splash effects using brand colors */}
-                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-[#F26722] blur-[50px] opacity-70" />
-                <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full bg-[#FF850A] blur-[50px] opacity-70" />
+                {/* Removed the orange paint splash effects */}
               </div>
             </div>
 
