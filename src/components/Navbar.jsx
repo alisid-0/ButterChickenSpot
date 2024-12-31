@@ -61,11 +61,6 @@ export default function Navbar() {
           to="/" 
           className="flex items-center gap-2 md:gap-3 text-[#FFF8CC] transform hover:scale-105 transition-transform duration-200"
         >
-          <img 
-            src={logo} 
-            alt="The Butter Chicken Spot Logo" 
-            className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14"
-          />
           <span className="text-sm md:text-xl lg:text-3xl font-black">
             The Butter Chicken Spot
           </span>

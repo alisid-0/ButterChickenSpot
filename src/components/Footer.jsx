@@ -92,7 +92,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-[#FFF8CC]/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[#FFF8CC]/90 text-sm text-center md:text-left">
-              © {new Date().getFullYear()} The Butter Chicken Spot. All rights reserved.
+              © {new Date().getFullYear()} The Butter Chicken Spot, LLC. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>

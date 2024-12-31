@@ -65,6 +65,14 @@ export default function Menu() {
             viewport={{ once: true }}
             className="relative max-w-4xl mx-auto mb-24"
           >
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
+              <div className="bg-[#EF4423] text-[#FFF8CC] px-6 py-3 rounded-full font-black text-lg shadow-lg flex items-center gap-2">
+                <Flame className="w-5 h-5" />
+                Special of the Week
+                <Flame className="w-5 h-5" />
+              </div>
+            </div>
+            
             <div className="absolute inset-0 bg-gradient-to-r from-[#EF4423] to-[#F26722] rounded-3xl transform rotate-2" />
             <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl">
               <div className="grid md:grid-cols-2 gap-8">
@@ -76,9 +84,20 @@ export default function Menu() {
                   />
                 </div>
                 <div className="p-8 flex flex-col justify-center">
-                  <h3 className="text-4xl font-black text-[#434725] mb-4">{specialItem.name}</h3>
+                  <h3 className="text-2xl md:text-3xl font-black text-[#434725] mb-4">{specialItem.name}</h3>
                   <p className="text-lg text-[#434725]/80 mb-6">{specialItem.description}</p>
-                  <div className="text-2xl font-black text-[#F26722] mb-8">${specialItem.price}</div>
+                  <div className="text-2xl font-black text-[#F26722] mb-8">
+                    {specialItem.discountPrice ? (
+                      <div className="flex items-center gap-3">
+                        <span>${specialItem.discountPrice}</span>
+                        <span className="text-lg text-[#434725]/60 line-through">
+                          ${specialItem.price}
+                        </span>
+                      </div>
+                    ) : (
+                      <span>${specialItem.price}</span>
+                    )}
+                  </div>
                   <button className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors">
                     Order Now
                   </button>
@@ -128,7 +147,22 @@ export default function Menu() {
                 <div className="p-6 md:p-8">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl md:text-3xl font-bold text-[#434725]">{item.name}</h3>
-                    <span className="text-xl md:text-2xl font-black text-[#F26722]">${item.price}</span>
+                    <div className="flex flex-col items-end">
+                      {item.discountPrice ? (
+                        <>
+                          <span className="text-xl md:text-2xl font-black text-[#F26722]">
+                            ${item.discountPrice}
+                          </span>
+                          <span className="text-sm text-[#434725]/60 line-through">
+                            ${item.price}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-xl md:text-2xl font-black text-[#F26722]">
+                          ${item.price}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-[#434725]/80 text-base md:text-lg mb-4">{item.description}</p>
                   {item.spiceLevel > 0 && (
@@ -195,7 +229,22 @@ export default function Menu() {
                 <div className="p-6 md:p-8">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl md:text-3xl font-bold text-[#434725]">{item.name}</h3>
-                    <span className="text-xl md:text-2xl font-black text-[#F26722]">${item.price}</span>
+                    <div className="flex flex-col items-end">
+                      {item.discountPrice ? (
+                        <>
+                          <span className="text-xl md:text-2xl font-black text-[#F26722]">
+                            ${item.discountPrice}
+                          </span>
+                          <span className="text-sm text-[#434725]/60 line-through">
+                            ${item.price}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-xl md:text-2xl font-black text-[#F26722]">
+                          ${item.price}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-[#434725]/80 text-base md:text-lg mb-4">{item.description}</p>
                   {item.spiceLevel > 0 && (

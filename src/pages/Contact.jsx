@@ -57,14 +57,13 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-6xl md:text-7xl font-black text-[#434725] mb-6">Get in Touch</h1>
-          <p className="text-xl text-[#434725]/80 max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you!
-          </p>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-[#434725] mb-4 sm:mb-6 px-4">
+            Get in Touch
+          </h1>
         </motion.div>
 
         {/* Contact Grid */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-32">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-8">
           {/* Contact Form */}
           <div className="relative">
             <div className="absolute top-0 left-1 right-1 bottom-[290px] bg-gradient-to-r from-[#F26722] to-[#FF850A] rounded-3xl transform rotate-1" style={{ zIndex: 0 }} />

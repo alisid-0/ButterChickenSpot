@@ -6,6 +6,7 @@ export default function EditItemModal({ item, onClose, onSave }) {
     name: item?.name || '',
     description: item?.description || '',
     price: item?.price || '',
+    discountPrice: item?.discountPrice || '',
     image: item?.image || '',
     spiceLevel: item?.spiceLevel || 0,
     categories: item?.categories || []
@@ -18,9 +19,9 @@ export default function EditItemModal({ item, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-[200]">
-      <div className="bg-white rounded-3xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center p-4 z-[200] overflow-y-auto">
+      <div className="bg-white rounded-3xl w-full max-w-lg my-20 sm:my-0 max-h-[calc(100vh-160px)] sm:max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white px-6 py-4 border-b border-gray-200 flex justify-between items-center z-10">
           <h2 className="text-xl sm:text-2xl font-bold text-[#434725]">
             {item ? 'Edit Menu Item' : 'Add Menu Item'}
           </h2>
@@ -59,18 +60,33 @@ export default function EditItemModal({ item, onClose, onSave }) {
               />
             </div>
 
-            <div>
-              <label className="block text-sm sm:text-base font-medium text-[#434725] mb-2">
-                Price
-              </label>
-              <input
-                type="number"
-                step="0.01"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                className="w-full px-4 py-2 sm:py-3 rounded-xl border border-gray-300 focus:border-[#F26722] focus:ring-[#F26722] focus:ring-1 outline-none"
-                required
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm sm:text-base font-medium text-[#434725] mb-2">
+                  Regular Price
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.price}
+                  onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
+                  className="w-full px-4 py-2 sm:py-3 rounded-xl border border-gray-300 focus:border-[#F26722] focus:ring-[#F26722] focus:ring-1 outline-none"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm sm:text-base font-medium text-[#434725] mb-2">
+                  Discount Price
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.discountPrice}
+                  onChange={(e) => setFormData({ ...formData, discountPrice: e.target.value ? parseFloat(e.target.value) : '' })}
+                  className="w-full px-4 py-2 sm:py-3 rounded-xl border border-gray-300 focus:border-[#F26722] focus:ring-[#F26722] focus:ring-1 outline-none"
+                  placeholder="Optional"
+                />
+              </div>
             </div>
 
             <div>

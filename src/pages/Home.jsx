@@ -346,7 +346,7 @@ export default function Home() {
                         />
                       </div>
                       <div className="p-8 flex flex-col justify-center">
-                        <h3 className="text-3xl sm:text-4xl font-black text-[#434725] mb-2 sm:mb-4">{specialItem.name}</h3>
+                        <h3 className="text-2xl md:text-3xl font-black text-[#434725] mb-2 sm:mb-4">{specialItem.name}</h3>
                         <p className="text-base sm:text-lg text-[#434725]/80 mb-4 sm:mb-6 line-clamp-4 sm:line-clamp-none">
                           {specialItem.description}
                         </p>
