@@ -38,4 +38,53 @@ export const menuApi = {
       throw new Error(`Error deleting menu item: ${error.message}`);
     }
   }
+};
+
+export const authApi = {
+  async register(userData) {
+    try {
+      const response = await axios.post(`${API_URL}/users/register`, {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        password: userData.password,
+        phone: userData.phone
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Registration error details:', error.response?.data);
+      
+      if (error.response?.data?.error?.includes('auth/email-already-in-use')) {
+        throw new Error('This email is already registered. Please use a different email or login.');
+      }
+      
+      throw new Error(error.response?.data?.error || 'Registration failed. Please try again.');
+    }
+  },
+
+  async login(credentials) {
+    try {
+      const response = await axios.post(`${API_URL}/users/login`, {
+        email: credentials.email,
+        password: credentials.password
+      });
+      
+      console.log('Login Response:', response.data);
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+      }
+      
+      return response.data;
+    } catch (error) {
+      console.error('Login error details:', error.response?.data);
+      throw new Error(error.response?.data?.message || 'Login failed');
+    }
+  },
+
+  async logout() {
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
+  }
 }; 

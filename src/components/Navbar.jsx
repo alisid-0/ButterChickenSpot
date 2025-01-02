@@ -9,13 +9,13 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user, isAdmin, logout } = useAuth();
   
   useEffect(() => {
-    if (isLoggedIn && location.pathname === '/login') {
+    if (isLoggedIn && location.pathname === '/login' && isAdmin) {
       navigate('/dashboard');
     }
-  }, [isLoggedIn, location.pathname, navigate]);
+  }, [isLoggedIn, location.pathname, navigate, isAdmin]);
 
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
@@ -24,19 +24,44 @@ export default function Navbar() {
     { path: '/contact', icon: PhoneCall, label: 'Contact' },
   ];
   
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   const AuthButton = () => {
     if (isLoggedIn) {
       return (
-        <Link 
-          to="/dashboard"
-          className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
-        >
-          <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="relative flex items-center gap-2">
-            <LayoutDashboard size={20} />
-            <span>Dashboard</span>
+        <div className="flex items-center gap-4">
+          <div className="bg-white/10 px-4 py-2 rounded-full">
+            <span className="text-[#FFF8CC] font-medium">
+              Welcome, <span className="font-bold">{user?.firstName}</span>
+            </span>
           </div>
-        </Link>
+          {isAdmin ? (
+            <Link 
+              to="/dashboard"
+              className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
+            >
+              <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex items-center gap-2">
+                <LayoutDashboard size={20} />
+                <span>Dashboard</span>
+              </div>
+            </Link>
+          ) : (
+            <button 
+              onClick={handleLogout}
+              className="relative group flex items-center gap-2 bg-[#FFF8CC] text-[#F26722] px-6 py-2 rounded-full font-bold hover:bg-white transition-all duration-200"
+            >
+              <div className="absolute inset-0 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex items-center gap-2">
+                <LogOut size={20} />
+                <span>Logout</span>
+              </div>
+            </button>
+          )}
+        </div>
       );
     }
     
