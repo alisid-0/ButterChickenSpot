@@ -1,9 +1,10 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Utensils, Heart, Award, ThumbsUp, Facebook, Instagram, Twitter, Flame, Droplets, Star } from 'lucide-react';
+import { ChevronRight, Utensils, Heart, Award, ThumbsUp, Facebook, Instagram, Twitter, Flame, Droplets, Star, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedText from '../components/AnimatedText';
 import { useMenu } from '../hooks/useMenu';
+import { newsletterApi } from '../services/api';
 
 // Lazy load Spline
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -102,6 +103,9 @@ export default function Home() {
   const [isSplineVisible, setIsSplineVisible] = useState(false);
   const [splineUrl, setSplineUrl] = useState("");
   const { menuItems, loading, error } = useMenu();
+  const [newsletterPosts, setNewsletterPosts] = useState([]);
+  const [currentPostIndex, setCurrentPostIndex] = useState(0);
+  const [newsletterLoading, setNewsletterLoading] = useState(true);
   
   const specialItem = menuItems.find(item => item.categories?.includes('special'));
 
@@ -147,6 +151,21 @@ export default function Home() {
 
   // Add this console log to track renders
   console.log("Current splineUrl:", splineUrl);
+
+  useEffect(() => {
+    const fetchNewsletter = async () => {
+      try {
+        const posts = await newsletterApi.getAllPosts();
+        setNewsletterPosts(posts);
+      } catch (error) {
+        console.error('Error fetching newsletter posts:', error);
+      } finally {
+        setNewsletterLoading(false);
+      }
+    };
+
+    fetchNewsletter();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#FFF8CC]">
@@ -368,7 +387,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Testimonials Section - Moved inside */}
+          {/* Newsletter Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10 pt-16">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -376,12 +395,20 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-[#F26722] to-[#FF850A] rounded-3xl transform rotate-3" />
-              <img
-                src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&q=80&w=800"
-                alt="Butter Chicken Dish"
-                className="relative rounded-3xl shadow-xl w-full h-[600px] object-cover"
-              />
+              {newsletterPosts[currentPostIndex]?.image ? (
+                <>
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#F26722] to-[#FF850A] rounded-3xl transform rotate-3" />
+                  <img
+                    src={newsletterPosts[currentPostIndex].image}
+                    alt={newsletterPosts[currentPostIndex].title}
+                    className="relative rounded-3xl shadow-xl w-full h-[600px] object-cover"
+                  />
+                </>
+              ) : (
+                <div className="relative rounded-3xl shadow-xl w-full h-[600px] bg-gradient-to-br from-[#F26722] to-[#FF850A] flex items-center justify-center">
+                  <h3 className="text-[#FFF8CC] text-4xl font-bold">The Butter Chicken Spot</h3>
+                </div>
+              )}
             </motion.div>
             
             <div className="space-y-12">
@@ -391,43 +418,65 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <h2 className="text-5xl font-black text-[#434725]">What Our Customers Say</h2>
+                <h2 className="text-5xl font-black text-[#434725]">Latest Updates</h2>
                 <p className="text-xl text-[#434725]/80">
-                  Join thousands of satisfied customers who've experienced our signature butter chicken
+                  Stay up to date with our latest news and announcements
                 </p>
               </motion.div>
 
-              <div className="space-y-8">
-                {[
-                  {
-                    quote: "The best butter chicken I've ever had! The sauce is perfectly balanced.",
-                    author: "Sarah J.",
-                    rating: 5
-                  },
-                  {
-                    quote: "A taste of authentic Indian cuisine. Simply amazing!",
-                    author: "Michael R.",
-                    rating: 5
-                  }
-                ].map((testimonial, index) => (
-                  <motion.div
-                    key={testimonial.author}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white p-6 rounded-2xl shadow-lg"
-                  >
-                    <div className="flex gap-1 mb-4 text-[#F26722]">
-                      {Array.from({ length: testimonial.rating }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-current" />
-                      ))}
+              {newsletterLoading ? (
+                <div className="animate-pulse space-y-4">
+                  <div className="h-8 bg-gray-200 rounded w-3/4" />
+                  <div className="h-32 bg-gray-200 rounded" />
+                  <div className="h-4 bg-gray-200 rounded w-1/4" />
+                </div>
+              ) : newsletterPosts.length > 0 ? (
+                <motion.div
+                  key={currentPostIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-8"
+                >
+                  <div className="bg-white p-8 rounded-2xl shadow-lg">
+                    <h3 className="text-2xl font-bold text-[#434725] mb-4">
+                      {newsletterPosts[currentPostIndex].title}
+                    </h3>
+                    <p className="text-lg text-[#434725]/80 mb-6 line-clamp-4">
+                      {newsletterPosts[currentPostIndex].content}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <p className="text-[#434725] font-medium">
+                        By {newsletterPosts[currentPostIndex].author}
+                      </p>
+                      <p className="text-[#434725]/60">
+                        {new Date(newsletterPosts[currentPostIndex].publishDate).toLocaleDateString()}
+                      </p>
                     </div>
-                    <p className="text-lg text-[#434725] mb-4 italic">"{testimonial.quote}"</p>
-                    <p className="text-[#434725] font-bold">{testimonial.author}</p>
-                  </motion.div>
-                ))}
-              </div>
+                  </div>
+
+                  <div className="flex justify-between items-center">
+                    <button
+                      onClick={() => setCurrentPostIndex(prev => (prev > 0 ? prev - 1 : newsletterPosts.length - 1))}
+                      className="p-2 rounded-full bg-[#F26722] text-[#FFF8CC] hover:bg-[#FF850A] transition-colors"
+                      aria-label="Previous post"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <span className="text-[#434725]">
+                      {currentPostIndex + 1} of {newsletterPosts.length}
+                    </span>
+                    <button
+                      onClick={() => setCurrentPostIndex(prev => (prev < newsletterPosts.length - 1 ? prev + 1 : 0))}
+                      className="p-2 rounded-full bg-[#F26722] text-[#FFF8CC] hover:bg-[#FF850A] transition-colors"
+                      aria-label="Next post"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </div>
+                </motion.div>
+              ) : (
+                <p className="text-[#434725]/80 text-lg">No newsletter posts available.</p>
+              )}
             </div>
           </div>
         </div>

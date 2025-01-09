@@ -87,4 +87,42 @@ export const authApi = {
     localStorage.removeItem('token');
     delete axios.defaults.headers.common['Authorization'];
   }
+};
+
+export const newsletterApi = {
+  async getAllPosts() {
+    try {
+      const response = await axios.get(`${API_URL}/newsletter`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching newsletter posts: ${error.message}`);
+    }
+  },
+
+  async addPost(post) {
+    try {
+      const response = await axios.post(`${API_URL}/newsletter`, post);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error adding newsletter post: ${error.message}`);
+    }
+  },
+
+  async updatePost(id, updates) {
+    try {
+      const response = await axios.put(`${API_URL}/newsletter/${id}`, updates);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error updating newsletter post: ${error.message}`);
+    }
+  },
+
+  async deletePost(id) {
+    try {
+      const response = await axios.delete(`${API_URL}/newsletter/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error deleting newsletter post: ${error.message}`);
+    }
+  }
 }; 
