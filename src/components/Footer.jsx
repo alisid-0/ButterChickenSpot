@@ -10,9 +10,9 @@ export default function Footer() {
           {/* Brand Section */}
           <div>
             <h3 className="text-2xl font-black mb-6">The Butter Chicken Spot</h3>
-            <p className="text-[#FFF8CC]/90 mb-6">
+            {/* <p className="text-[#FFF8CC]/90 mb-6">
               Where tradition meets perfection in every bite of our signature butter chicken.
-            </p>
+            </p> */}
             <div className="flex gap-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
                 className="hover:text-white transition-colors">
@@ -84,7 +84,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-            <p className="text-xs text-[#FFF8CC]/70 mt-1">(Exclusions may apply)</p>
+            <p className="text-xs text-[#FFF8CC]/70 mt-1">(Holidays may affect these hours)</p>
           </div>
         </div>
 

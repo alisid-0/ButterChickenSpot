@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useMenu } from '../hooks/useMenu';
-import { Flame, Leaf } from 'lucide-react';
+import { Flame, Leaf, ShoppingBag } from 'lucide-react';
+import AddToCartModal from '../components/AddToCartModal';
+import { useOrder } from '../context/OrderContext';
+import Cart from '../components/Cart';
 
 export default function Menu() {
   const { menuItems, loading, error } = useMenu();
-  
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+  const { cart } = useOrder();
+  const [showCart, setShowCart] = useState(false);
+
+  const handleOrderClick = (item) => {
+    setSelectedItem(item);
+    setShowAddToCartModal(true);
+  };
+
   const classicItems = menuItems.filter(item => 
     !item.categories?.includes('remix') && 
     !item.categories?.includes('special')
@@ -27,6 +39,20 @@ export default function Menu() {
 
   return (
     <div className="min-h-screen bg-[#FFF8CC]">
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => setShowCart(true)}
+          className="bg-[#F26722] text-[#FFF8CC] p-4 rounded-full shadow-lg hover:bg-[#FF850A] transition-colors relative"
+        >
+          <ShoppingBag className="w-6 h-6" />
+          {cart.length > 0 && (
+            <div className="absolute -top-2 -right-2 bg-[#EF4423] text-[#FFF8CC] w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">
+              {cart.length}
+            </div>
+          )}
+        </button>
+      </div>
+
       {/* Hero Banner */}
       <div className="relative h-[30vh] overflow-hidden">
         <div className="absolute inset-0 bg-[#F6BF23]">
@@ -98,7 +124,10 @@ export default function Menu() {
                       <span>${specialItem.price}</span>
                     )}
                   </div>
-                  <button className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors">
+                  <button 
+                    onClick={() => handleOrderClick(specialItem)}
+                    className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors"
+                  >
                     Order Now
                   </button>
                 </div>
@@ -175,6 +204,12 @@ export default function Menu() {
                       </div>
                     </div>
                   )}
+                  <button
+                    onClick={() => handleOrderClick(item)}
+                    className="mt-4 w-full bg-[#F26722] text-[#FFF8CC] px-6 py-3 rounded-full font-bold hover:bg-[#FF850A] transition-colors flex items-center justify-center gap-2"
+                  >
+                    Order Now
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -257,12 +292,30 @@ export default function Menu() {
                       </div>
                     </div>
                   )}
+                  <button
+                    onClick={() => handleOrderClick(item)}
+                    className="mt-4 w-full bg-[#F26722] text-[#FFF8CC] px-6 py-3 rounded-full font-bold hover:bg-[#FF850A] transition-colors flex items-center justify-center gap-2"
+                  >
+                    Order Now
+                  </button>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {showAddToCartModal && selectedItem && (
+        <AddToCartModal
+          item={selectedItem}
+          onClose={() => {
+            setShowAddToCartModal(false);
+            setSelectedItem(null);
+          }}
+        />
+      )}
+
+      <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
     </div>
   );
 }

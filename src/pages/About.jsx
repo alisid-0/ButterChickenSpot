@@ -130,7 +130,7 @@ const AboutContent = () => {
         </motion.div>
 
         {/* Stats Grid - Already responsive, but adjusted spacing */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-16 md:mb-32">
+        {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 mb-16 md:mb-32">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -145,7 +145,7 @@ const AboutContent = () => {
               <div className="text-xs md:text-sm lg:text-base text-[#434725]/70 group-hover:text-[#FFF8CC]/90 transition-colors">{stat.label}</div>
             </motion.div>
           ))}
-        </div>
+        </div> */}
 
         {/* Team Section - Made responsive */}
         <motion.div
