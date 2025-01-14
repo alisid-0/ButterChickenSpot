@@ -18,6 +18,7 @@ export function useMenu() {
     }
   };
 
+  
   const addMenuItem = async (item) => {
     try {
       const newItem = await menuApi.addMenuItem(item);
