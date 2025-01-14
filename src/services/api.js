@@ -126,3 +126,41 @@ export const newsletterApi = {
     }
   }
 }; 
+
+export const ordersApi = {
+  async createOrder(orderData) {
+    try {
+      const response = await axios.post(`${API_URL}/orders`, orderData);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error creating order: ${error.message}`);
+    }
+  },
+
+  async getOrder(orderId) {
+    try {
+      const response = await axios.get(`${API_URL}/orders/${orderId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching order: ${error.message}`);
+    }
+  },
+
+  async getUserOrders(userId) {
+    try {
+      const response = await axios.get(`${API_URL}/orders/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error fetching user orders: ${error.message}`);
+    }
+  },
+
+  async updateOrderStatus(orderId, status) {
+    try {
+      const response = await axios.put(`${API_URL}/orders/${orderId}/status`, { status });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error updating order status: ${error.message}`);
+    }
+  }
+};

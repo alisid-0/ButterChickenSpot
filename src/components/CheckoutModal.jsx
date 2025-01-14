@@ -1,70 +1,85 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { useOrder } from '../context/OrderContext';
-import { loadStripe } from '@stripe/stripe-js';
-
-// Initialize Stripe (replace with your publishable key)
-const stripePromise = loadStripe('your_publishable_key');
+import emailjs from '@emailjs/browser';
+import { ordersApi } from '../services/api';
 
 export default function CheckoutModal({ onClose }) {
   const { cart, orderNote, getCartTotal, clearCart } = useOrder();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    paymentMethod: 'card'
+    email: ''
   });
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const generateOrderNumber = () => {
+    const timestamp = new Date().getTime().toString().slice(-4);
+    const random = Math.floor(1000 + Math.random() * 9000);
+    return `TBC${timestamp}${random}`;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
 
+    const orderNumber = generateOrderNumber();
     const orderData = {
-      items: cart,
-      orderNote,
-      total: getCartTotal(),
-      customer: formData,
-      orderType: 'pickup',
-      orderDate: new Date().toISOString()
+      userId: "guest",
+      customerName: formData.name,
+      contactNumber: formData.phone.replace(/\D/g, ''),
+      email: formData.email || null,
+      items: cart.map(item => ({
+        id: item.id,
+        name: item.name,
+        quantity: parseInt(item.quantity),
+        price: Number(item.discountPrice || item.price),
+        specialInstructions: item.specialInstructions || ''
+      })),
+      total: parseFloat(getCartTotal().toFixed(2)),
+      paymentMethod: 'cash',
+      orderNumber,
+      orderNote: orderNote || null,
+      status: 'pending'
     };
 
-    if (formData.paymentMethod === 'card') {
-      try {
-        // Create a payment session with your backend
-        const response = await fetch('/api/create-payment-session', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+    try {
+      // Create order in database
+      const response = await ordersApi.createOrder(orderData);
+      console.log('Server response:', response);
+
+      // Send email if provided
+      if (formData.email) {
+        await emailjs.send(
+          'service_ocbwpgx',
+          'template_gahmkge',
+          {
+            to_email: formData.email,
+            customer_name: formData.name,
+            customer_phone: formData.phone,
+            order_number: orderNumber,
+            order_items: cart.map(item => {
+              const price = parseFloat(item.discountPrice || item.price);
+              return `${item.name} (${item.quantity}x) - $${(price * item.quantity).toFixed(2)}${
+                item.specialInstructions ? `\nNote: ${item.specialInstructions}` : ''
+              }`
+            }).join('\n\n'),
+            order_note: orderNote || 'None',
+            total: getCartTotal().toFixed(2)
           },
-          body: JSON.stringify(orderData),
-        });
-
-        const session = await response.json();
-        const stripe = await stripePromise;
-
-        // Redirect to Stripe Checkout
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: session.id,
-        });
-
-        if (error) {
-          console.error('Payment error:', error);
-          setIsProcessing(false);
-          return;
-        }
-      } catch (err) {
-        console.error('Checkout error:', err);
-        setIsProcessing(false);
-        return;
+          'Os_w4KHmtCNiCzAtB'
+        );
       }
-    } else {
-      // Handle cash payment
-      console.log('Cash order submitted:', orderData);
+
+      console.log('Order submitted:', orderData);
       clearCart();
       onClose();
+    } catch (error) {
+      console.error('Order submission error:', error.response?.data || error.message);
+      console.error('Order data that failed:', orderData);
+    } finally {
+      setIsProcessing(false);
     }
-
-    setIsProcessing(false);
   };
 
   return (
@@ -112,16 +127,14 @@ export default function CheckoutModal({ onClose }) {
 
             <div>
               <label className="block font-medium text-[#434725] mb-2">
-                Payment Method
+                Email (Optional - for order confirmation)
               </label>
-              <select
-                value={formData.paymentMethod}
-                onChange={(e) => setFormData({...formData, paymentMethod: e.target.value})}
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#F26722] focus:ring-[#F26722] focus:ring-1 outline-none"
-              >
-                <option value="card">Pay Now with Card</option>
-                <option value="cash">Pay at Pickup</option>
-              </select>
+              />
             </div>
           </div>
 

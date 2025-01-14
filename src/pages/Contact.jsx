@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, Facebook, Instagram, Twitter } from 'lucide-react';
 
 export default function Contact() {
+  const form = useRef();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,33 +20,36 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus({ type: '', message: '' });
     
     try {
-      await emailjs.send(
-        'YOUR_SERVICE_ID', // from EmailJS
-        'YOUR_TEMPLATE_ID', // from EmailJS
+      const result = await emailjs.send(
+        'service_ocbwpgx',
+        'template_myo1rhu',
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-          to_email: 'thebutterchickenspot@gmail.com'
         },
-        'YOUR_PUBLIC_KEY' // from EmailJS
+        'Os_w4KHmtCNiCzAtB'
       );
-      
-      setStatus({ 
-        type: 'success', 
-        message: 'Message sent successfully! We\'ll get back to you soon.' 
-      });
-      setFormData({ name: '', email: '', message: '' });
+
+      if (result.text === 'OK') {
+        setStatus({ 
+          type: 'success', 
+          message: 'Message sent successfully! We\'ll get back to you soon.' 
+        });
+        setFormData({ name: '', email: '', message: '' });
+      }
     } catch (error) {
+      console.error('EmailJS Error:', error);
       setStatus({ 
         type: 'error', 
         message: 'Failed to send message. Please try again.' 
       });
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
@@ -80,6 +84,7 @@ export default function Contact() {
                   <input
                     type="text"
                     id="name"
+                    name="from_name"
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 border-[#434725]/10 focus:border-[#F26722] focus:outline-none transition-colors"
@@ -92,6 +97,7 @@ export default function Contact() {
                   <input
                     type="email"
                     id="email"
+                    name="from_email"
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border-2 border-[#434725]/10 focus:border-[#F26722] focus:outline-none transition-colors"
@@ -103,6 +109,7 @@ export default function Contact() {
                   <label className="block text-[#434725] font-bold mb-2" htmlFor="message">Message</label>
                   <textarea
                     id="message"
+                    name="message"
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
