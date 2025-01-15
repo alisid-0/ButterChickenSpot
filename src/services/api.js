@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://butterchickenspot-backend.onrender.com/api';
+const API_URL = 'https://butterchickenspotbackend.onrender.com/api';
 
 export const menuApi = {
   async getAllMenuItems() {
