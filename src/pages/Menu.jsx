@@ -126,9 +126,10 @@ export default function Menu() {
                   </div>
                   <button 
                     onClick={() => handleOrderClick(specialItem)}
-                    className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-8 py-4 rounded-full font-bold hover:bg-[#FF850A] transition-colors"
+                    className="inline-flex items-center justify-center gap-2 bg-[#F26722] text-[#FFF8CC] px-6 py-3 rounded-full text-base font-semibold hover:bg-[#FF850A] transition-all duration-300 hover:shadow-lg hover:scale-105 group"
                   >
                     Order Now
+                    <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -206,9 +207,10 @@ export default function Menu() {
                   )}
                   <button
                     onClick={() => handleOrderClick(item)}
-                    className="mt-4 w-full bg-[#F26722] text-[#FFF8CC] px-6 py-3 rounded-full font-bold hover:bg-[#FF850A] transition-colors flex items-center justify-center gap-2"
+                    className="mt-4 inline-flex items-center justify-center gap-2 bg-[#F26722]/90 text-[#FFF8CC] px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#F26722] transition-all duration-300 hover:shadow-md group"
                   >
-                    Order Now
+                    Add to Cart
+                    <ShoppingBag className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -294,9 +296,10 @@ export default function Menu() {
                   )}
                   <button
                     onClick={() => handleOrderClick(item)}
-                    className="mt-4 w-full bg-[#F26722] text-[#FFF8CC] px-6 py-3 rounded-full font-bold hover:bg-[#FF850A] transition-colors flex items-center justify-center gap-2"
+                    className="mt-4 inline-flex items-center justify-center gap-2 bg-[#F26722]/90 text-[#FFF8CC] px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-[#F26722] transition-all duration-300 hover:shadow-md group"
                   >
-                    Order Now
+                    Add to Cart
+                    <ShoppingBag className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                   </button>
                 </div>
               </div>

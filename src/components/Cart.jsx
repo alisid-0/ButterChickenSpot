@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useOrder } from '../context/OrderContext';
 import CheckoutModal from './CheckoutModal';
+import AuthPrompt from './AuthPrompt';
 
 export default function Cart({ isOpen, onClose }) {
   const { 
@@ -16,9 +17,22 @@ export default function Cart({ isOpen, onClose }) {
   } = useOrder();
 
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const handleCheckout = () => {
+    setShowAuthPrompt(true);
+  };
+
+  const handleContinueAsGuest = () => {
+    setShowAuthPrompt(false);
     setShowCheckout(true);
+  };
+
+  const handleSignIn = (userData) => {
+    setShowAuthPrompt(false);
+    setShowCheckout(true);
+    setUserData(userData);
   };
 
   return (
@@ -146,8 +160,18 @@ export default function Cart({ isOpen, onClose }) {
         </div>
       )}
 
+      {showAuthPrompt && (
+        <AuthPrompt
+          onContinueAsGuest={handleContinueAsGuest}
+          onSignIn={handleSignIn}
+        />
+      )}
+
       {showCheckout && (
-        <CheckoutModal onClose={() => setShowCheckout(false)} />
+        <CheckoutModal 
+          onClose={() => setShowCheckout(false)} 
+          userData={userData}
+        />
       )}
     </motion.div>
   );

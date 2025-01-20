@@ -4,12 +4,12 @@ import { useOrder } from '../context/OrderContext';
 import emailjs from '@emailjs/browser';
 import { ordersApi } from '../services/api';
 
-export default function CheckoutModal({ onClose }) {
+export default function CheckoutModal({ onClose, userData }) {
   const { cart, orderNote, getCartTotal, clearCart } = useOrder();
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: ''
+    name: userData ? userData.firstName + ' ' + userData.lastName : '',
+    phone: userData ? userData.phone : '',
+    email: userData ? userData.email : ''
   });
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -25,7 +25,7 @@ export default function CheckoutModal({ onClose }) {
 
     const orderNumber = generateOrderNumber();
     const orderData = {
-      userId: "guest",
+      userId: userData ? userData._id : "guest",
       customerName: formData.name,
       contactNumber: formData.phone.replace(/\D/g, ''),
       email: formData.email || null,
